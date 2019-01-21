@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<center><h1>维修人员主页</h1></center>
+<input id="btn-update-password" type="button" value="去修改密码"/>
+
+<br><br><br><br><br>
+	<table id="tables">
+	<tr><td>报修人</td><td>报修人电话</td><td>报修项目</td><td>报修进度</td><td>确定维修完成</td></tr>	
+	</table>
+
+
+
+
+
+
+<script src="../js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript">
+	$("#btn-update-password").click(function(){
+		window.location = "updatePassword.html";
+	});
+	
+	
+	
+	
+	$(document).ready(function(){		
+		$.ajax({
+			"url":"../weixiu/findJindu.do",
+			"type":"post",
+			"dataType":"json",
+			"success":function(json){
+				var list=json.data;
+				for(var i=0;i<list.length;i++){
+					var html='<tr><td>#{username}</td><td>#{phone}</td><td>#{baoxiu}</td><td>#{jindu}</td><td><input type="button" id="#{uid}" value="已维修" onclick="weixiu(this)"></td></tr>';					
+					html=html.replace(/#{username}/g,list[i].username);
+					html=html.replace(/#{phone}/g,list[i].phone);
+					html=html.replace(/#{baoxiu}/g,list[i].baoxiu);
+					html=html.replace(/#{jindu}/g,list[i].jindu);
+					html=html.replace(/#{uid}/g,list[i].uid);
+					$("#tables").append(html);
+				}			
+			}	
+		});
+	});
+	
+	function weixiu(e){
+		var uid=e.id;
+		var url="../weixiu/weixiuJindu.do";
+		$.ajax({
+			"url":url,
+			"data":{id:uid},
+			"type":"get",
+			"dataType":"json",
+			"success":function(){
+				alert("已成功维修");
+			}	
+		});	
+	}
+	
+	
+	
+	</script>
+
+</body>
+</html>

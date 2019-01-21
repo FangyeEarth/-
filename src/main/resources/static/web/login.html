@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<body>
+	<form id="form-login" method="post">
+		<table>
+			<tr>
+				<td>登录页面</td>
+			</tr>
+			<tr>
+				<td>用户名</td>
+				<td><input type="text" name="username"></td>
+			</tr>
+			<tr>
+				<td>密码</td>
+				<td><input type="password" name="password"></td>
+			</tr>
+			<tr>
+				<td>注册者身份</td>
+				<td><select name="identity_id" id="identity_id">
+						<option>请选择身份</option>
+						<option value="1">用户</option>
+						<option value="2">管理员</option>
+						<option value="3">维修人员</option>
+				</select></td>
+			</tr>
+			<tr><td><input id="btn-login" type="button" value="登录"></td></tr>
+		</table>
+	</form>
+	<a href="reg.html">去注册</a>
+	
+	
+	
+
+
+
+	<script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="../js/jquery.cookie.js"></script>
+	<script type="text/javascript">
+	
+
+
+	
+	$("#btn-login").click(function(){
+		 var url="/user/login.do";
+		var data=$("#form-login").serialize();
+		$.ajax({
+			"url":url,
+			"data":data,
+			"type":"post",
+			"dataType":"json",
+			"success":function(json){
+				if(json.state==200){
+					$.cookie("identity_id", $("#identity_id").val(), { 
+					    expires: 7
+					});
+					if($("#identity_id").val()==1){
+						window.location = "index1.html";
+					}
+					if($("#identity_id").val()==2){
+						window.location = "index2.html";
+					}
+					if($("#identity_id").val()==3){
+						window.location = "index3.html";
+					}
+				}else{
+				alert(json.message);		
+				}
+			}
+		}); 	
+	});
+	</script> 
+	
+
+</body>
+</html>

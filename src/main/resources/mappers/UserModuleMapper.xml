@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.wuye.mapper.UserModuleMapper">
+
+<insert id="addUM" parameterType="cn.wuye.entity.UserModule" useGeneratedKeys="true" keyProperty="id">
+insert into user_module(uid,baoxiu,jindu,water_rate,power_rate,gas_rate,property_rate,weixiu_name,weixiu_tel,create_user,create_time) 
+values(#{uid},#{baoxiu},#{jindu},#{water_rate},#{power_rate},#{gas_rate},#{property_rate},#{weixiu_name},#{weixiu_tel},#{create_user},#{create_time});
+</insert>
+
+
+<select id="findByUid" resultType="cn.wuye.entity.UserModule">
+select baoxiu,jindu,water_rate,power_rate,gas_rate,property_rate,weixiu_name,weixiu_tel from user_module where uid=#{uid};
+</select>
+
+
+<update id="baoxiu">
+update user_module set baoxiu=#{baoxiu},jindu='未完成' where uid=#{uid};
+</update>
+
+
+<update id="recharge">
+update user_module set <if test="water_rate!=null">water_rate=#{water_rate},</if>
+<if test="power_rate!=null">power_rate=#{power_rate},</if>
+<if test="gas_rate!=null">gas_rate=#{gas_rate},</if>
+<if test="property_rate!=null">property_rate=#{property_rate},</if>
+create_time=#{create_time} where uid=#{uid};
+</update>
+
+
+
+	
+</mapper>
+	
+	
+	
+	
+	
+

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<center>
+		<h1>用户主页</h1>
+	</center>
+	<input id="btn-update-password" type="button" value="去修改密码" />
+	<br/><br/><br/>
+	
+	<div>
+		<form method="post" id="form-baoxiu">
+			<table>
+				<tr>
+					<td>上报故障问题</td>
+					<td><input id="baoxiu-val"  type="text" name="baoxiu"></td>
+				</tr>
+				<tr>
+					<td><input type="button" id="btn-bx" value="提交故障"  onclick="Submitbx()"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	<br/><br/><br/>
+		<div>
+		<form method="post" id="form-rate">
+			<table>
+				<tr>
+					<td>查看各种费用余额</td>
+				</tr>
+				<tr>
+					<td>水费</td>
+					<td><input type="text" name="water_rate" id="water_rate" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<td>电费</td>
+					<td><input type="text" name="power_rate" id="power_rate" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<td>燃气费</td>
+					<td><input type="text" name="gas_rate" id="gas_rate" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<td>物业费</td>
+					<td><input type="text" name="property_rate" id="property_rate" readonly="readonly"></td>
+				</tr>				
+				<tr>
+					<td><input type="button" id="btn-rate" value="查看"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	
+	<br/><br/><br/>
+		<div>
+		<form method="post" id="form-cx">
+			<table>
+				<tr>
+					<td>查看维修人员名字，电话及维修进度</td>
+				</tr>
+				<tr>
+					<td>维修人员名字</td>
+					<td><input type="text" name="weixiu_name" id="weixiu_name" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<td>维修人员电话</td>
+					<td><input type="text" name="weixiu_tel" id="weixiu_tel" readonly="readonly"></td>
+				</tr>
+				<tr>
+					<td>维修项目</td>
+					<td><input type="text" name="baoxiu_cx" id="baoxiu_cx" readonly="readonly"></td>
+				</tr>	
+				<tr>
+					<td>维修进度</td>
+					<td><input type="text" name="jindu_cx" id="jindu_cx" readonly="readonly"></td>
+				</tr>	
+				<tr>
+					<td><input type="button" id="btn-cx" value="查看"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	
+	<br/><br/><br/>
+	<div>
+	<form method="post" id="form-recharge">
+	<table>
+		<tr>
+				<td>充值</td>
+		</tr>
+		<tr>
+				<td>
+				<select id="rech" name="rech">
+				<option>请选择</option>
+				<option value="1">水费</option>
+				<option value="2">电费</option>
+				<option value="3">燃气费</option>
+				<option value="4">物业费</option>
+				</select>
+				</td>
+				<td><input type="text" name="recharge" id="recharge"></td>
+		</tr>
+		<tr>
+				<td><input type="button" id="btn-rech" value="充值"></td>
+		</tr>
+	</table>
+	</form>	
+	</div>
+	
+	<script src="../js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript">
+			$("#btn-rech").click(function(){
+				if($("#recharge").val()==""||$("#recharge").val()==null){
+					alert("请输入充值金额");
+					return;
+				}
+				var url="../userModule/recharge.do";
+				var data=$("#form-recharge").serialize();
+				$.ajax({
+					"url":url,
+					"data":data,
+					"type":"post",
+					"dataType":"json",
+					"success":function(){
+						alert("充值成功，请查看");
+					}			
+				});
+			});
+			
+	
+	
+		 $("#btn-cx").click(function(){
+			var url="../userModule/selectAll.do";			
+			$.ajax({
+				"url":url,
+				"type":"post",
+				"dataType":"json",
+				"success":function(json){
+					var h=json.data;					
+					$("#weixiu_name").val(h.weixiu_name);
+					$("#weixiu_tel").val(h.weixiu_tel);
+					$("#baoxiu_cx").val(h.baoxiu);
+					$("#jindu_cx").val(h.jindu);
+				}	
+			});	
+		}); 
+		
+	
+	
+		$("#btn-update-password").click(function() {
+			window.location = "updatePassword.html";
+		});
+		function Submitbx(){
+			if($("#baoxiu-val").val()==null||$("#baoxiu-val").val()==""){
+				alert("不允许为空");	
+				return;
+			}
+			var url="../userModule/Submitbaoxiu.do";
+			var data=$("#form-baoxiu").serialize();
+			$.ajax({
+				"url":url,
+				"data":data,
+				"type":"post",
+				"dataType":"json",
+				"success":function(json){					
+						alert("上报成功");					
+				}
+			});
+		}
+		
+		$("#btn-rate").click(function(){
+			var url="../userModule/selectAll.do";			
+			$.ajax({
+				"url":url,
+				"type":"post",
+				"dataType":"json",
+				"success":function(json){
+					var h=json.data;
+					$("#water_rate").val(h.water_rate);
+					$("#power_rate").val(h.power_rate);
+					$("#gas_rate").val(h.gas_rate);
+					$("#property_rate").val(h.property_rate);
+				}	
+			});			
+		});
+		
+	</script>
+
+</body>
+</html>

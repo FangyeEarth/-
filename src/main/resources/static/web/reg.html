@@ -1,0 +1,84 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body style="font-size: 30px;">
+
+	<form method="POST" id="form-reg">
+		<table>
+			<tr>
+				<td>注册页面</td>
+			</tr>
+			<tr>
+				<td>用户名</td>
+				<td><input type="text" name="username" maxlength="10"></td>
+			</tr>
+			<tr>
+				<td>密码</td>
+				<td><input type="password" name="password"></td>
+			</tr>
+			<tr>
+				<td>年龄</td>
+				<td><input type="text" name="age" maxlength="3"></td>
+			</tr>
+			<tr>
+				<td>联系电话</td>
+				<td><input type="text" name="phone" maxlength="11"></td>
+			</tr>
+			<tr>
+				<td>电子邮箱</td>
+				<td><input type="text" name="email"></td>
+			</tr>
+			<tr>
+				<td>密保问题</td>
+				<td><select name="secret_id">
+						<option>请选择密保问题</option>
+						<option value="1">你最喜欢的歌曲？</option>
+						<option value="2">你最喜欢的一部电影名字? </option>
+						<option value="3">你的小学入学年龄？ </option>
+				</select></td>
+			</tr>
+			<tr>
+				<td>密保答案</td>
+				<td><input type="text" name="secret_answer"></td>
+			</tr>
+			<tr>
+				<td>注册者身份</td>
+				<td><select name="identity_id">
+				<option>请选择身份</option>
+						<option value="1">用户</option>
+						<option value="2">管理员</option>
+						<option value="3">维修人员</option>
+				</select></td>
+			</tr>
+			<tr>
+				<td><input type="button" value="注册" id="btn-reg"></td>
+			</tr>
+		</table>
+	</form>
+	<a href="login.html">去登录</a>
+<script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript">
+	$("#btn-reg").click(function(){
+		var url="/user/reg.do";
+		var data=$("#form-reg").serialize();
+		$.ajax({
+			"url":url,
+			"data":data,
+			"type":"post",
+			"dataType":"json",
+			"success":function(json){
+				if(json.state==200){
+					window.location = "login.html";
+				}else{
+				alert(json.message);		
+				}
+			}
+		});
+		
+	});
+	</script>
+
+</body>
+</html>

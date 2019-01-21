@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.wuye.mapper.UserMapper">
+
+<insert id="addnew" parameterType="cn.wuye.entity.User" useGeneratedKeys="true" keyProperty="id">
+insert into user(username,password,salt,age,phone,email,isDelete,identity_id,secret_id,secret_answer,create_user,create_time) 
+values(#{username},#{password},#{salt},#{age},#{phone},#{email},#{isDelete},#{identity_id},#{secret_id},#{secret_answer},#{create_user},#{create_time});
+</insert>
+
+<select id="findByUsername" resultType="cn.wuye.entity.User">
+select id,username,password,salt,isDelete,identity_id,secret_id,secret_answer from user
+where username=#{username};
+</select>
+
+<update id="updatePassword">
+update user set password=#{password} where id=#{uid};
+</update>
+
+<update id="deleteUser">
+update user set isDelete=1 where username=#{username};
+</update>
+
+<update id="changeInfoByGM" >
+update user set <if test="age!=null">age=#{age},</if> <if test="phone!=null">phone=#{phone},</if> <if test="email!=null">email=#{email},</if> 
+ create_user=#{create_user},create_time=#{create_time} where username=#{username};
+</update>
+
+<select id="findByGM" resultType="cn.wuye.entity.User">
+select username,age,phone,email,identity_id from user where isDelete=0;
+</select>
+
+
+	
+</mapper>
+	
+	
+	
+	
+	
+

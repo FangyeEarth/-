@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="cn.wuye.mapper.WeixiuMapper">
+
+<select id="findByJindu" resultType="cn.wuye.entity.WeixiuVO">
+select user.username,user.phone,user_module.baoxiu,user_module.jindu,user_module.uid from user,user_module  
+where user.id=user_module.uid and user_module.jindu='未完成'; 
+</select>
+
+<update id="setJindu">
+update user_module set jindu='已完成' where uid=#{uid};
+</update>
+
+
+
+
+
+	
+</mapper>
+	
+	
+	
+	
+	
+
